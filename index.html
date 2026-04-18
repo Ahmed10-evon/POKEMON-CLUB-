@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Club | Join the Community</title>
+    <style>
+        /* CSS Reset and Base Vibe */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #e0f2e9; color: #333; }
+        
+        /* Header & Navigation */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: #e0f2e9; }
+        .logo { font-size: 28px; font-weight: 900; color: #fccf00; text-shadow: 2px 2px 0 #2a75bb; letter-spacing: 2px; }
+        nav ul { list-style: none; display: flex; gap: 25px; }
+        nav a { text-decoration: none; color: #2e604a; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+        nav a:hover { color: #50b47b; }
+        
+        /* Search and Sign In */
+        .controls { display: flex; gap: 15px; align-items: center; }
+        .search-bar { padding: 10px 20px; border-radius: 20px; border: none; outline: none; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); }
+        .btn-signin { background-color: #50b47b; color: white; padding: 10px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        .btn-signin:hover { background-color: #3e9a64; box-shadow: 0 4px 8px rgba(80, 180, 123, 0.4); }
+        
+        /* Hero Section */
+        .hero { display: flex; justify-content: space-between; align-items: center; padding: 80px 10%; position: relative; }
+        .hero-text { max-width: 50%; z-index: 2; }
+        .hero-text h1 { font-size: 4.5rem; color: #6fc99c; line-height: 1.1; margin-bottom: 20px; text-transform: uppercase; font-weight: 900; }
+        
+        /* Email Signup Form */
+        .email-signup { display: flex; margin-top: 40px; background: white; padding: 6px; border-radius: 30px; width: fit-content; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .email-signup input { border: none; padding: 12px 20px; border-radius: 30px; outline: none; width: 250px; font-size: 14px; }
+        .email-signup button { background-color: #6fc99c; color: white; border: none; padding: 12px 30px; border-radius: 30px; cursor: pointer; font-weight: bold; font-size: 14px; transition: 0.2s; }
+        .email-signup button:hover { background-color: #5ab588; }
+
+        /* Mascot Placeholder */
+        .mascot-area { font-size: 150px; user-select: none; animation: float 3s ease-in-out infinite; }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Club Features Preview */
+        .features { display: flex; gap: 20px; padding: 50px 10%; justify-content: space-between; }
+        .card { background: white; padding: 40px 30px; border-radius: 20px; width: 31%; box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center; }
+        .card h3 { color: #2a75bb; margin-bottom: 15px; font-size: 1.4rem; }
+        .card p { color: #777; font-size: 15px; margin-bottom: 25px; line-height: 1.5; }
+        .card a { color: #6fc99c; text-decoration: none; font-weight: bold; border-bottom: 2px solid transparent; padding-bottom: 2px; transition: 0.2s; }
+        .card a:hover { border-bottom: 2px solid #6fc99c; }
+    </style>
+</head>
+<body>
+
+    <header>
+      <div class="logo"><a href="index.html" style="text-decoration:none; color:inherit;">Pokémon Club</a></div>
+   <nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="community.html">Forum</a></li>
+        <li><a href="pokedex.html">Pokédex</a></li>
+        <li><a href="quiz.html">Quiz Game</a></li>
+    </ul>
+</nav>
+        <div class="controls">
+            <input type="text" class="search-bar" placeholder="🔍 Search...">
+            <a href="#" class="btn-signin">Sign In</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Join The<br>Community</h1>
+            <div class="email-signup">
+                <input type="email" placeholder="Your email address">
+                <button>Get Started</button>
+            </div>
+        </div>
+        <div class="mascot-area">⚡</div> 
+    </section>
+
+    <section class="features">
+        <div class="card">
+            <h3>About The Club</h3>
+            <p>Join trainers from around the world. Battle, trade, and discuss everything from the main series games to the TCG and anime.</p>
+            <a href="#">Read Our Rules →</a>
+        </div>
+        <div class="card">
+            <h3>Community Forum</h3>
+            <p>Dive into active discussions, share your fan art, or find a team for your next big competitive tournament.</p>
+            <a href="#">View Discussions →</a>
+        </div>
+        <div class="card">
+            <h3>Official Pokédex</h3>
+            <p>Look up stats, types, and abilities with our custom-built, fully searchable interactive Pokédex database.</p>
+            <a href="https://pokemondb.net/pokedex/national">Search Pokédex →</a>
+        </div>
+    </section>
+
+</body>
+</html>

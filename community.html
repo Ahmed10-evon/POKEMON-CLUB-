@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Hub | Pokémon Club</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #f0f4f8; color: #444; }
+
+        /* Navigation (Same as previous pages for consistency) */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: #2a75bb; color: white; }
+        .logo { font-weight: bold; font-size: 22px; }
+        nav ul { list-style: none; display: flex; gap: 20px; }
+        nav a { text-decoration: none; color: white; font-size: 14px; font-weight: 600; opacity: 0.9; }
+        nav a:hover { opacity: 1; }
+
+        .container { display: grid; grid-template-columns: 1fr 300px; gap: 30px; padding: 40px 5%; max-width: 1400px; margin: 0 auto; }
+
+        /* Forum Sections */
+        .forum-main h2 { margin-bottom: 20px; color: #2a75bb; display: flex; align-items: center; gap: 10px; }
+        .forum-category { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        .cat-header { background: #3b82f6; color: white; padding: 12px 20px; font-weight: bold; font-size: 14px; text-transform: uppercase; }
+        
+        .thread-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid #edf2f7; transition: 0.2s; cursor: pointer; }
+        .thread-row:hover { background: #f9fbff; }
+        .thread-info h4 { color: #2d3748; font-size: 16px; margin-bottom: 4px; }
+        .thread-info p { font-size: 13px; color: #718096; }
+        .thread-stats { text-align: right; font-size: 13px; color: #a0aec0; }
+        .thread-stats b { color: #4a5568; }
+
+        /* Sidebar Elements */
+        .sidebar-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .sidebar-card h3 { font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #f0f4f8; padding-bottom: 8px; color: #2a75bb; }
+
+        /* Trainer Card / Profile */
+        .trainer-card { text-align: center; }
+        .avatar { width: 80px; height: 80px; background: #e2e8f0; border-radius: 50%; margin: 0 auto 10px; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .rank-badge { background: #ffcb05; color: #2a75bb; font-weight: 800; font-size: 10px; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; }
+        
+        /* Leaderboard List */
+        .leader-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 14px; }
+        .rank-num { font-weight: bold; color: #cbd5e0; width: 20px; }
+        .leader-name { flex-grow: 1; font-weight: 600; }
+        .leader-pts { font-weight: bold; color: #50b47b; }
+
+        /* Quick Links Buttons */
+        .btn-action { display: block; width: 100%; padding: 12px; background: #50b47b; color: white; text-align: center; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px; transition: 0.2s; }
+        .btn-action:hover { background: #3e9a64; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><a href="index.html" style="text-decoration:none; color:inherit;">PokéCommunity Hub</a></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="pokedex.html">Pokédex</a></li>
+                <li><a href="#">Battles</a></li>
+                <li><a href="#">Events</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main class="forum-main">
+            <h2>📜 The Bulletin Board</h2>
+            
+            <div class="forum-category">
+                <div class="cat-header">Main Series Games</div>
+                <div class="thread-row">
+                    <div class="thread-info">
+                        <h4>Pokémon Scarlet & Violet Discussion</h4>
+                        <p>Discuss the latest DLC updates and Tera Raid events.</p>
+                    </div>
+                    <div class="thread-stats"><b>1,240</b> posts<br>5 mins ago</div>
+                </div>
+                <div class="thread-row">
+                    <div class="thread-info">
+                        <h4>Competitive Teambuilding</h4>
+                        <p>Get advice on your VGC or Smogon sets.</p>
+                    </div>
+                    <div class="thread-stats"><b>856</b> posts<br>1 hour ago</div>
+                </div>
+            </div>
+
+            <div class="forum-category">
+                <div class="cat-header">Community & Creative</div>
+                <div class="thread-row">
+                    <div class="thread-info">
+                        <h4>Showcase: Fan Art & Sprites</h4>
+                        <p>Post your latest drawings or custom regional forms!</p>
+                    </div>
+                    <div class="thread-stats"><b>3,102</b> posts<br>Just now</div>
+                </div>
+                <div class="thread-row">
+                    <div class="thread-info">
+                        <h4>The Welcome Mat</h4>
+                        <p>New here? Introduce yourself to the club!</p>
+                    </div>
+                    <div class="thread-stats"><b>520</b> posts<br>2 hours ago</div>
+                </div>
+            </div>
+        </main>
+
+        <aside class="sidebar">
+            <div class="sidebar-card trainer-card">
+                <h3>My Trainer Card</h3>
+                <div class="avatar">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" width="70" alt="Avatar">
+                </div>
+                <p><strong>AshKetchum99</strong></p>
+                <span class="rank-badge">Gym Leader</span>
+                <p style="font-size: 12px; color: #718096; margin-top: 10px;">Favorite: Pikachu</p>
+                <a href="#" class="btn-action">Edit Profile</a>
+            </div>
+
+            <div class="sidebar-card">
+                <h3>Top Trainers</h3>
+                <div class="leader-item">
+                    <span class="rank-num">1</span>
+                    <span class="leader-name">Cynthia_Fan</span>
+                    <span class="leader-pts">4500</span>
+                </div>
+                <div class="leader-item">
+                    <span class="rank-num">2</span>
+                    <span class="leader-name">Red_Champion</span>
+                    <span class="leader-pts">4210</span>
+                </div>
+                <div class="leader-item">
+                    <span class="rank-num">3</span>
+                    <span class="leader-name">Blue_Rival</span>
+                    <span class="leader-pts">3900</span>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <h3>Upcoming Events</h3>
+                <p style="font-size: 13px; margin-bottom: 10px;">📅 <strong>Club Trivia Night</strong><br>Tomorrow @ 8:00 PM</p>
+                <p style="font-size: 13px;">🏆 <strong>Summer Tournament</strong><br>Registration Open!</p>
+                <a href="#" class="btn-action" style="background: #2a75bb;">View Calendar</a>
+            </div>
+        </aside>
+    </div>
+
+</body>
+</html>
