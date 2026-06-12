@@ -1,4 +1,3 @@
-// signin.js - Form validation, interaction toggling, and storage lookup
 let isLoginMode = true;
 
 function toggleMode() {
@@ -36,11 +35,9 @@ function handleAuth(event) {
     const password = document.getElementById('password').value;
     const errMsg = document.getElementById('error-message');
     
-    // Fetch user array or instantiate a blank slate
     let users = JSON.parse(localStorage.getItem('pokemonClubUsers')) || [];
 
     if (isLoginMode) {
-        // Find matching user records
         const user = users.find(u => u.email === email && u.password === password);
         if (user) {
             localStorage.setItem('loggedInUser', JSON.stringify(user));
@@ -51,7 +48,6 @@ function handleAuth(event) {
     } else {
         const username = document.getElementById('username').value.trim();
         
-        // Form Validations
         if (users.some(u => u.email === email)) {
             errMsg.textContent = "An account with this email already exists.";
             return;
@@ -61,7 +57,6 @@ function handleAuth(event) {
             return;
         }
 
-        // Register and Save New User
         const newUser = { username, email, password };
         users.push(newUser);
         localStorage.setItem('pokemonClubUsers', JSON.stringify(users));

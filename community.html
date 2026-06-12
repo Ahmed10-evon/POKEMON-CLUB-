@@ -114,7 +114,8 @@
                 <p><strong id="trainer-name">Guest Trainer</strong></p>
                 <span class="rank-badge" id="trainer-rank">Visitor</span>
                 <p style="font-size: 12px; color: #718096; margin-top: 10px;">Favorite: Pikachu</p>
-                <a href="#" class="btn-action">Edit Profile</a>
+                
+                <a href="profile.html" class="btn-action">View / Edit Profile</a>
             </div>
 
             <div class="sidebar-card">
@@ -146,5 +147,19 @@
     </div>
 
     <script src="auth.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+            
+            if (loggedInUser) {
+                const trainerNameEl = document.getElementById('trainer-name');
+                const trainerRankEl = document.getElementById('trainer-rank');
+                
+                trainerNameEl.textContent = loggedInUser.username;
+                trainerRankEl.textContent = "Gym Leader";
+            }
+        });
+    </script>
 </body>
 </html>
