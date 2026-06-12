@@ -145,36 +145,6 @@
         </aside>
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-            const signInBtn = document.querySelector('.btn-signin');
-            const trainerNameEl = document.getElementById('trainer-name');
-            const trainerRankEl = document.getElementById('trainer-rank');
-
-            if (loggedInUser) {
-                // Set sidebar profile dynamically
-                trainerNameEl.textContent = loggedInUser.username;
-                trainerRankEl.textContent = "Gym Leader";
-                
-                // Set Header Auth button
-                if (signInBtn) {
-                    signInBtn.textContent = `Logout (${loggedInUser.username})`;
-                    signInBtn.style.backgroundColor = "#e53e3e";
-                    signInBtn.href = "#";
-                    signInBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        localStorage.removeItem('loggedInUser');
-                        window.location.reload();
-                    });
-                }
-            } else {
-                if (signInBtn) {
-                    signInBtn.textContent = "Sign In";
-                    signInBtn.href = "signin.html";
-                }
-            }
-        });
-    </script>
+    <script src="auth.js"></script>
 </body>
 </html>

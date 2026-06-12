@@ -7,13 +7,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if (loggedInUser) {
             // Update button UI to showcase active session
             signInBtn.textContent = `Logout (${loggedInUser.username})`;
-            signInBtn.style.backgroundColor = "#e53e3e"; // Red alert style for logouts
+            signInBtn.style.backgroundColor = "#e53e3e"; // Red logout styling
             signInBtn.href = "#";
             
             signInBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 localStorage.removeItem('loggedInUser');
-                window.location.reload(); // Refresh session states cleanly
+                window.location.reload(); // Refresh to clean up the session states
             });
         } else {
             signInBtn.textContent = "Sign In";

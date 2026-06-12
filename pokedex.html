@@ -100,62 +100,6 @@
         </section>
     </main>
 
-<script>
-    // Search Filter Logic
-    const searchInput = document.querySelector('.search-container input');
-    const pokemonCards = document.querySelectorAll('.card');
-
-    searchInput.addEventListener('input', () => {
-        const query = searchInput.value.toLowerCase();
-        pokemonCards.forEach(card => {
-            const name = card.querySelector('h3').textContent.toLowerCase();
-            const id = card.querySelector('.id').textContent.toLowerCase();
-            card.style.display = (name.includes(query) || id.includes(query)) ? 'block' : 'none';
-        });
-    });
-
-    // Type Filter Logic System 
-    const typeFilters = document.querySelectorAll('.type-filters a');
-    typeFilters.forEach(filter => {
-        filter.addEventListener('click', (e) => {
-            e.preventDefault();
-            typeFilters.forEach(f => f.classList.remove('active'));
-            filter.classList.add('active');
-
-            const selectedType = filter.textContent.toLowerCase();
-            pokemonCards.forEach(card => {
-                const badges = card.querySelectorAll('.badge');
-                let hasType = false;
-                badges.forEach(badge => {
-                    if (selectedType === 'all' || getIconByType(selectedType) === badge.textContent) {
-                        hasType = true;
-                    }
-                });
-                card.style.display = hasType ? 'block' : 'none';
-            });
-        });
-    });
-
-    function getIconByType(type) {
-        const icons = { 'fire': '🔥', 'ghost': '👻', 'ground': '⛰️', 'rock': '🪨', 'electric': '⚡', 'grass': '🌿', 'water': '💧' };
-        return icons[type] || '';
-    }
-
-    // Auth Session Sync
-    document.addEventListener("DOMContentLoaded", () => {
-        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-        const signInBtn = document.querySelector('.btn-signin');
-        if (signInBtn && loggedInUser) {
-            signInBtn.textContent = `Logout (${loggedInUser.username})`;
-            signInBtn.style.backgroundColor = "#e53e3e";
-            signInBtn.href = "#";
-            signInBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                localStorage.removeItem('loggedInUser');
-                window.location.reload();
-            });
-        }
-    });
-</script>
+<script src="auth.js"></script>
 </body>
 </html>
