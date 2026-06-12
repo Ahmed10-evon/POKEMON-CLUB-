@@ -149,17 +149,22 @@
     <script src="auth.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-            
-            if (loggedInUser) {
-                const trainerNameEl = document.getElementById('trainer-name');
-                const trainerRankEl = document.getElementById('trainer-rank');
-                
-                trainerNameEl.textContent = loggedInUser.username;
-                trainerRankEl.textContent = "Gym Leader";
-            }
-        });
+            document.addEventListener("DOMContentLoaded", () => {
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    
+    if (loggedInUser) {
+        const trainerNameEl = document.getElementById('trainer-name');
+        const trainerRankEl = document.getElementById('trainer-rank');
+        const avatarImgEl = document.querySelector('.avatar img');
+        
+        trainerNameEl.textContent = loggedInUser.username;
+        trainerRankEl.textContent = "Gym Leader";
+        
+        if (loggedInUser.favoritePokemonId) {
+            avatarImgEl.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${loggedInUser.favoritePokemonId}.png`;
+        }
+    }
+});
     </script>
 </body>
 </html>
