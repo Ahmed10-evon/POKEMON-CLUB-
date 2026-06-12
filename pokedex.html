@@ -5,386 +5,157 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokédex | Pokémon Club</title>
     <style>
-        /* CSS Reset and Base Styles */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #f6f8fc; color: #333; }
         
-        /* CSS Variables for Type Colors */
         :root {
-            --fire: #fd7d24;
-            --ghost: #7b62a3;
-            --ground: #ab9842;
-            --rock: #a38c21;
-            --water: #4592c4;
-            --grass: #9bcc50;
-            --dark: #707070;
-            --electric: #eed535;
+            --fire: #fd7d24; --ghost: #7b62a3; --ground: #ab9842;
+            --rock: #a38c21; --water: #4592c4; --grass: #9bcc50;
+            --dark: #707070; --electric: #eed535;
         }
 
-        /* Header Layout */
-        header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 20px 5%; 
-            background: white;
-            border-bottom: 1px solid #eee;
-        }
-        .logo { font-size: 24px; font-weight: bold; color: #333; display: flex; align-items: center; gap: 10px; }
-        .logo span { font-size: 28px; } /* For the Pokeball emoji */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: white; border-bottom: 1px solid #eee; }
+        .logo { font-size: 24px; font-weight: bold; color: #333; display: flex; align-items: center; gap: 10px; text-decoration: none; }
         
-        /* Search Bar */
-        .search-container { position: relative; width: 400px; }
-        .search-container input {
-            width: 100%;
-            padding: 12px 20px;
-            background-color: #f0f2f5;
-            border: none;
-            border-radius: 25px;
-            font-size: 14px;
-            outline: none;
-            transition: 0.3s;
-        }
-        .search-container input:focus { box-shadow: 0 0 0 2px #50b47b; background-color: white; }
+        nav ul { list-style: none; display: flex; gap: 25px; }
+        nav a { text-decoration: none; color: #2e604a; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+        nav a:hover { color: #50b47b; }
+        
+        .btn-signin { background-color: #50b47b; color: white; padding: 10px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        .btn-signin:hover { opacity: 0.9; }
 
-        /* Type Filters (Scrollable) */
-        .type-filters {
-            display: flex;
-            gap: 20px;
-            padding: 15px 5%;
-            background: white;
-            overflow-x: auto;
-            white-space: nowrap;
-            border-bottom: 1px solid #eee;
-            scrollbar-width: none; /* Hide scrollbar Firefox */
-        }
-        .type-filters::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
-        .type-filters a {
-            text-decoration: none;
-            color: #888;
-            font-size: 14px;
-            font-weight: 600;
-            padding-bottom: 5px;
-            transition: 0.2s;
-        }
-        .type-filters a:hover, .type-filters a.active {
-            color: #333;
-            border-bottom: 2px solid #333;
-        }
+        .search-container { position: relative; width: 300px; }
+        .search-container input { width: 100%; padding: 12px 20px; background-color: #f0f2f5; border: none; border-radius: 25px; font-size: 14px; outline: none; }
 
-        /* Main Content Container */
+        .type-filters { display: flex; gap: 20px; padding: 15px 5%; background: white; overflow-x: auto; border-bottom: 1px solid #eee; scrollbar-width: none; }
+        .type-filters::-webkit-scrollbar { display: none; }
+        .type-filters a { text-decoration: none; color: #888; font-size: 14px; font-weight: 600; padding-bottom: 5px; }
+        .type-filters a.active { color: #333; border-bottom: 2px solid #333; }
+
         main { padding: 40px 5%; max-width: 1400px; margin: 0 auto; }
-
-        /* Hero Banner */
-        .pokedex-banner {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            border-radius: 16px;
-            padding: 40px 50px;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 20px rgba(79, 172, 254, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
+        .pokedex-banner { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 16px; padding: 40px 50px; color: white; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; position: relative; overflow: hidden; }
         .banner-text h1 { font-size: 2rem; margin-bottom: 10px; }
         .banner-text p { font-size: 1.1rem; opacity: 0.9; max-width: 400px; line-height: 1.4; }
         .banner-image { height: 120px; position: absolute; right: 50px; bottom: -10px; }
 
-        /* Controls (Surprise Me / Sort) */
-        .controls {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        .btn-control {
-            background: white;
-            border: 1px solid #ddd;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            color: #555;
-            transition: 0.2s;
-        }
-        .btn-control:hover { background: #f9f9f9; border-color: #ccc; }
+        .controls-div { display: flex; justify-content: flex-end; gap: 15px; margin-bottom: 30px; }
+        .btn-control { background: white; border: 1px solid #ddd; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; color: #555; }
 
-        /* Pokémon Grid */
-        .pokemon-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 25px;
-        }
-
-        /* Individual Card */
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-            position: relative;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-        }
-
-        /* Type Badges on Cards */
-        .type-badges {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        .badge {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 12px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .badge.fire { background-color: var(--fire); }
-        .badge.ghost { background-color: var(--ghost); }
-        .badge.ground { background-color: var(--ground); }
-        .badge.rock { background-color: var(--rock); }
-
-        /* Card Image & Info */
+        .pokemon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; }
+        .card { background: white; border-radius: 16px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: transform 0.2s; cursor: pointer; }
+        .card:hover { transform: translateY(-5px); }
+        .type-badges { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .badge { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; }
         .card img { width: 120px; height: 120px; object-fit: contain; margin-bottom: 15px; }
         .card h3 { font-size: 1.1rem; color: #2c3e50; margin-bottom: 5px; }
         .card span.id { font-size: 0.85rem; color: #95a5a6; font-weight: 600; }
-
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo"><a href="index.html" style="text-decoration:none; color:inherit;">Pokémon Club</a></div>
-        <div class="logo">
-            <span>⚡</span> Pokédex
-        </div>
+        <a href="index.html" class="logo"><span>⚡</span> Pokédex</a>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="community.html">Forum</a></li>
+                <li><a href="pokedex.html">Pokédex</a></li>
+                <li><a href="quiz.html">Quiz Game</a></li>
+            </ul>
+        </nav>
         <div class="search-container">
-            <input type="text" placeholder="Search a Pokémon by name or number...">
+            <input type="text" placeholder="Search by name or number...">
+        </div>
+        <div>
+            <a href="signin.html" class="btn-signin">Sign In</a>
         </div>
     </header>
 
     <nav class="type-filters">
         <a href="#" class="active">All</a>
-        <a href="#">Bug</a>
-        <a href="#">Dark</a>
-        <a href="#">Dragon</a>
         <a href="#">Electric</a>
-        <a href="#">Fairy</a>
-        <a href="#">Fighting</a>
         <a href="#">Fire</a>
-        <a href="#">Flying</a>
-        <a href="#">Ghost</a>
         <a href="#">Grass</a>
-        <a href="#">Ground</a>
-        <a href="#">Ice</a>
-        <a href="#">Normal</a>
-        <a href="#">Poison</a>
-        <a href="#">Psychic</a>
-        <a href="#">Rock</a>
-        <a href="#">Steel</a>
         <a href="#">Water</a>
+        <a href="#">Ghost</a>
+        <a href="#">Ground</a>
+        <a href="#">Rock</a>
     </nav>
 
     <main>
         <section class="pokedex-banner">
             <div class="banner-text">
                 <h1>Your Official Pokédex!</h1>
-                <p>Here you can find all Pokémon in the order you prefer. Discover stats, types, and build your dream team.</p>
+                <p>Discover stats, types, and build your dream team.</p>
             </div>
             <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/59.png" alt="Arcanine" class="banner-image">
         </section>
 
-        <div class="controls">
-            <button class="btn-control">🎲 Surprise me!</button>
-            <button class="btn-control">Sort by: Number ▼</button>
-        </div>
-
         <section class="pokemon-grid">
-<div class="card"><div class="type-badges"><div class="badge" style="background:#9bcc50">🌿</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"><h3>Bulbasaur</h3><span class="id">#001</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#9bcc50">🌿</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png"><h3>Ivysaur</h3><span class="id">#002</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#9bcc50">🌿</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png"><h3>Venusaur</h3><span class="id">#003</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#fd7d24">🔥</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png"><h3>Charmander</h3><span class="id">#004</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#fd7d24">🔥</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png"><h3>Charmeleon</h3><span class="id">#005</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#fd7d24">🔥</div><div class="badge" style="background:#3dc7ef">🕊️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png"><h3>Charizard</h3><span class="id">#006</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png"><h3>Squirtle</h3><span class="id">#007</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/8.png"><h3>Wartortle</h3><span class="id">#008</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/9.png"><h3>Blastoise</h3><span class="id">#009</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#729f3f">🐞</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10.png"><h3>Caterpie</h3><span class="id">#010</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#729f3f">🐞</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/11.png"><h3>Metapod</h3><span class="id">#011</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#729f3f">🐞</div><div class="badge" style="background:#3dc7ef">🕊️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/12.png"><h3>Butterfree</h3><span class="id">#012</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#729f3f">🐞</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/13.png"><h3>Weedle</h3><span class="id">#013</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#729f3f">🐞</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/14.png"><h3>Kakuna</h3><span class="id">#014</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#729f3f">🐞</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/15.png"><h3>Beedrill</h3><span class="id">#015</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#a8a878">⚪</div><div class="badge" style="background:#3dc7ef">🕊️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/16.png"><h3>Pidgey</h3><span class="id">#016</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#a8a878">⚪</div><div class="badge" style="background:#3dc7ef">🕊️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/17.png"><h3>Pidgeotto</h3><span class="id">#017</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#a8a878">⚪</div><div class="badge" style="background:#3dc7ef">🕊️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/18.png"><h3>Pidgeot</h3><span class="id">#018</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#a8a878">⚪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/19.png"><h3>Rattata</h3><span class="id">#019</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#a8a878">⚪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/20.png"><h3>Raticate</h3><span class="id">#020</span></div>
-
-<div class="card"><div class="type-badges"><div class="badge" style="background:#a8a878">⚪</div><div class="badge" style="background:#3dc7ef">🕊️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/21.png"><h3>Spearow</h3><span class="id">#021</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#a8a878">⚪</div><div class="badge" style="background:#3dc7ef">🕊️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/22.png"><h3>Fearow</h3><span class="id">#022</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/23.png"><h3>Ekans</h3><span class="id">#023</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/24.png"><h3>Arbok</h3><span class="id">#024</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#eed535">⚡</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"><h3>Pikachu</h3><span class="id">#025</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#eed535">⚡</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/26.png"><h3>Raichu</h3><span class="id">#026</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#ab9842">⛰️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/27.png"><h3>Sandshrew</h3><span class="id">#027</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#ab9842">⛰️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/28.png"><h3>Sandslash</h3><span class="id">#028</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/29.png"><h3>Nidoran♀</h3><span class="id">#029</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/30.png"><h3>Nidorina</h3><span class="id">#030</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#b667cf">🧪</div><div class="badge" style="background:#ab9842">⛰️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/31.png"><h3>Nidoqueen</h3><span class="id">#031</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/32.png"><h3>Nidoran♂</h3><span class="id">#032</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/33.png"><h3>Nidorino</h3><span class="id">#033</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#b667cf">🧪</div><div class="badge" style="background:#ab9842">⛰️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/34.png"><h3>Nidoking</h3><span class="id">#034</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#fdb9e9">✨</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/35.png"><h3>Clefairy</h3><span class="id">#035</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#fdb9e9">✨</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/36.png"><h3>Clefable</h3><span class="id">#036</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#fd7d24">🔥</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/37.png"><h3>Vulpix</h3><span class="id">#037</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#fd7d24">🔥</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/38.png"><h3>Ninetales</h3><span class="id">#038</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#a8a878">⚪</div><div class="badge" style="background:#fdb9e9">✨</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/39.png"><h3>Jigglypuff</h3><span class="id">#039</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#a8a878">⚪</div><div class="badge" style="background:#fdb9e9">✨</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/40.png"><h3>Wigglytuff</h3><span class="id">#040</span></div>
-
-<div class="card"><div class="type-badges"><div class="badge" style="background:#b667cf">🧪</div><div class="badge" style="background:#3dc7ef">🕊️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/41.png"><h3>Zubat</h3><span class="id">#041</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#b667cf">🧪</div><div class="badge" style="background:#3dc7ef">🕊️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/42.png"><h3>Golbat</h3><span class="id">#042</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#9bcc50">🌿</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/43.png"><h3>Oddish</h3><span class="id">#043</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#9bcc50">🌿</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/44.png"><h3>Gloom</h3><span class="id">#044</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#9bcc50">🌿</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/45.png"><h3>Vileplume</h3><span class="id">#045</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#729f3f">🐞</div><div class="badge" style="background:#9bcc50">🌿</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/46.png"><h3>Paras</h3><span class="id">#046</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#729f3f">🐞</div><div class="badge" style="background:#9bcc50">🌿</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/47.png"><h3>Parasect</h3><span class="id">#047</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#729f3f">🐞</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/48.png"><h3>Venonat</h3><span class="id">#048</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#729f3f">🐞</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/49.png"><h3>Venomoth</h3><span class="id">#049</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#ab9842">⛰️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/50.png"><h3>Diglett</h3><span class="id">#050</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#ab9842">⛰️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/51.png"><h3>Dugtrio</h3><span class="id">#051</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#a8a878">⚪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/52.png"><h3>Meowth</h3><span class="id">#052</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#a8a878">⚪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/53.png"><h3>Persian</h3><span class="id">#053</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/54.png"><h3>Psyduck</h3><span class="id">#054</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/55.png"><h3>Golduck</h3><span class="id">#055</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#d56723">🥊</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/56.png"><h3>Mankey</h3><span class="id">#056</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#d56723">🥊</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/57.png"><h3>Primeape</h3><span class="id">#057</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#fd7d24">🔥</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/58.png"><h3>Growlithe</h3><span class="id">#058</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#fd7d24">🔥</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/59.png"><h3>Arcanine</h3><span class="id">#059</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/60.png"><h3>Poliwag</h3><span class="id">#060</span></div>
-
-<div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/61.png"><h3>Poliwhirl</h3><span class="id">#061</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div><div class="badge" style="background:#d56723">🥊</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/62.png"><h3>Poliwrath</h3><span class="id">#062</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#f366b9">🔮</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/63.png"><h3>Abra</h3><span class="id">#063</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#f366b9">🔮</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/64.png"><h3>Kadabra</h3><span class="id">#064</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#f366b9">🔮</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/65.png"><h3>Alakazam</h3><span class="id">#065</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#d56723">🥊</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/66.png"><h3>Machop</h3><span class="id">#066</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#d56723">🥊</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/67.png"><h3>Machoke</h3><span class="id">#067</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#d56723">🥊</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/68.png"><h3>Machamp</h3><span class="id">#068</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#9bcc50">🌿</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/69.png"><h3>Bellsprout</h3><span class="id">#069</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#9bcc50">🌿</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/70.png"><h3>Weepinbell</h3><span class="id">#070</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#9bcc50">🌿</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/71.png"><h3>Victreebel</h3><span class="id">#071</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/72.png"><h3>Tentacool</h3><span class="id">#072</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/73.png"><h3>Tentacruel</h3><span class="id">#073</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#a38c21">🪨</div><div class="badge" style="background:#ab9842">⛰️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/74.png"><h3>Geodude</h3><span class="id">#074</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#a38c21">🪨</div><div class="badge" style="background:#ab9842">⛰️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/75.png"><h3>Graveler</h3><span class="id">#075</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#a38c21">🪨</div><div class="badge" style="background:#ab9842">⛰️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/76.png"><h3>Golem</h3><span class="id">#076</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#fd7d24">🔥</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/77.png"><h3>Ponyta</h3><span class="id">#077</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#fd7d24">🔥</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/78.png"><h3>Rapidash</h3><span class="id">#078</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div><div class="badge" style="background:#f366b9">🔮</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/79.png"><h3>Slowpoke</h3><span class="id">#079</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div><div class="badge" style="background:#f366b9">🔮</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/80.png"><h3>Slowbro</h3><span class="id">#080</span></div>
-
-<div class="card"><div class="type-badges"><div class="badge" style="background:#eed535">⚡</div><div class="badge" style="background:#9eb7b8">⚙️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/81.png"><h3>Magnemite</h3><span class="id">#081</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#eed535">⚡</div><div class="badge" style="background:#9eb7b8">⚙️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/82.png"><h3>Magneton</h3><span class="id">#082</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#a8a878">⚪</div><div class="badge" style="background:#3dc7ef">🕊️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/83.png"><h3>Farfetch'd</h3><span class="id">#083</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#a8a878">⚪</div><div class="badge" style="background:#3dc7ef">🕊️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/84.png"><h3>Doduo</h3><span class="id">#084</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#a8a878">⚪</div><div class="badge" style="background:#3dc7ef">🕊️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/85.png"><h3>Dodrio</h3><span class="id">#085</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/86.png"><h3>Seel</h3><span class="id">#086</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div><div class="badge" style="background:#51c4e7">❄️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/87.png"><h3>Dewgong</h3><span class="id">#087</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/88.png"><h3>Grimer</h3><span class="id">#088</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/89.png"><h3>Muk</h3><span class="id">#089</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/90.png"><h3>Shellder</h3><span class="id">#090</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div><div class="badge" style="background:#51c4e7">❄️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/91.png"><h3>Cloyster</h3><span class="id">#091</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#7b62a3">👻</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/92.png"><h3>Gastly</h3><span class="id">#092</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#7b62a3">👻</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/93.png"><h3>Haunter</h3><span class="id">#093</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#7b62a3">👻</div><div class="badge" style="background:#b667cf">🧪</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png"><h3>Gengar</h3><span class="id">#094</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#a38c21">🪨</div><div class="badge" style="background:#ab9842">⛰️</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/95.png"><h3>Onix</h3><span class="id">#095</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#f366b9">🔮</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/96.png"><h3>Drowzee</h3><span class="id">#096</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#f366b9">🔮</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/97.png"><h3>Hypno</h3><span class="id">#097</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/98.png"><h3>Krabby</h3><span class="id">#098</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/99.png"><h3>Kingler</h3><span class="id">#099</span></div>
-<div class="card"><div class="type-badges"><div class="badge" style="background:#eed535">⚡</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/100.png"><h3>Voltorb</h3><span class="id">#100</span></div>
-
+            <div class="card"><div class="type-badges"><div class="badge" style="background:#9bcc50">🌿</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"><h3>Bulbasaur</h3><span class="id">#001</span></div>
+            <div class="card"><div class="type-badges"><div class="badge" style="background:#fd7d24">🔥</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png"><h3>Charmander</h3><span class="id">#004</span></div>
+            <div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png"><h3>Squirtle</h3><span class="id">#007</span></div>
+            <div class="card"><div class="type-badges"><div class="badge" style="background:#eed535">⚡</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"><h3>Pikachu</h3><span class="id">#025</span></div>
         </section>
     </main>
+
 <script>
+    // Search Filter Logic
     const searchInput = document.querySelector('.search-container input');
-    const typeFilters = document.querySelectorAll('.type-filters a');
     const pokemonCards = document.querySelectorAll('.card');
 
-    // 1. Search Bar Logic (Filter by Name or ID)
     searchInput.addEventListener('input', () => {
         const query = searchInput.value.toLowerCase();
-
         pokemonCards.forEach(card => {
             const name = card.querySelector('h3').textContent.toLowerCase();
             const id = card.querySelector('.id').textContent.toLowerCase();
-
-            if (name.includes(query) || id.includes(query)) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
+            card.style.display = (name.includes(query) || id.includes(query)) ? 'block' : 'none';
         });
     });
 
-    // 2. Type Filter Logic
+    // Type Filter Logic System 
+    const typeFilters = document.querySelectorAll('.type-filters a');
     typeFilters.forEach(filter => {
         filter.addEventListener('click', (e) => {
             e.preventDefault();
-            
-            // UI: Update Active State
             typeFilters.forEach(f => f.classList.remove('active'));
             filter.classList.add('active');
 
             const selectedType = filter.textContent.toLowerCase();
-
             pokemonCards.forEach(card => {
-                // Get all badges within the card
                 const badges = card.querySelectorAll('.badge');
                 let hasType = false;
-
                 badges.forEach(badge => {
-                    // Check if the emoji or class matches the type
-                    // (For this simple version, we'll check the text/icon)
-                    if (selectedType === 'all') {
-                        hasType = true;
-                    } else if (getIconByType(selectedType) === badge.textContent) {
+                    if (selectedType === 'all' || getIconByType(selectedType) === badge.textContent) {
                         hasType = true;
                     }
                 });
-
                 card.style.display = hasType ? 'block' : 'none';
             });
         });
     });
 
-    // Helper function to map type names to the emojis used in the HTML
     function getIconByType(type) {
-        const icons = {
-            'fire': '🔥',
-            'ghost': '👻',
-            'ground': '⛰️',
-            'rock': '🪨',
-            'electric': '⚡',
-            'grass': '🌿'
-        };
+        const icons = { 'fire': '🔥', 'ghost': '👻', 'ground': '⛰️', 'rock': '🪨', 'electric': '⚡', 'grass': '🌿', 'water': '💧' };
         return icons[type] || '';
     }
+
+    // Auth Session Sync
+    document.addEventListener("DOMContentLoaded", () => {
+        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+        const signInBtn = document.querySelector('.btn-signin');
+        if (signInBtn && loggedInUser) {
+            signInBtn.textContent = `Logout (${loggedInUser.username})`;
+            signInBtn.style.backgroundColor = "#e53e3e";
+            signInBtn.href = "#";
+            signInBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('loggedInUser');
+                window.location.reload();
+            });
+        }
+    });
 </script>
 </body>
 </html>
