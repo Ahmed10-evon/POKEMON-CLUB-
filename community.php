@@ -85,24 +85,32 @@
 
         <aside class="sidebar">
             <div class="sidebar-card trainer-card">
-                <h3>My Trainer Card</h3>
-                
-                <?php if(isset($_SESSION['user'])): ?>
-                    <div class="avatar">
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/<?= htmlspecialchars($_SESSION['user']['fav']) ?>.png" width="70" alt="Avatar">
-                    </div>
-                    <p><strong><?= htmlspecialchars($_SESSION['user']['username']) ?></strong></p>
-                    <span class="rank-badge">Gym Leader</span>
-                    <a href="profile.php" class="btn-action">View / Edit Profile</a>
-                
-                <?php else: ?>
-                    <div class="avatar">👤</div>
-                    <p><strong>Guest Trainer</strong></p>
-                    <span class="rank-badge" style="background:#e2e8f0; color:#718096;">Visitor</span>
-                    <a href="signin.php" class="btn-action">Sign In to Join</a>
-                <?php endif; ?>
-                
-            </div>
+    <h3>My Trainer Card</h3>
+    
+    <?php if(isset($_SESSION['user'])): ?>
+        <div class="avatar">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/<?= htmlspecialchars($_SESSION['user']['fav']) ?>.png" width="70" alt="Avatar">
+        </div>
+        
+        <p><strong><?= htmlspecialchars($_SESSION['user']['username']) ?></strong></p>
+        <span class="rank-badge">Champion</span>
+        
+        <p style="font-size: 12px; color: #718096; margin-top: 10px;">
+            Favorite: Pokémon #<?= htmlspecialchars($_SESSION['user']['fav']) ?>
+        </p>
+        
+        <a href="profile.php" class="btn-action">Edit Profile</a>
+    
+    <?php else: ?>
+        <div class="avatar" style="font-size: 30px; display: flex; align-items: center; justify-content: center;">👤</div>
+        <p><strong>Guest Trainer</strong></p>
+        <span class="rank-badge" style="background:#e2e8f0; color:#718096;">Visitor</span>
+        
+        <p style="font-size: 12px; color: #718096; margin-top: 10px;">Favorite: None</p>
+        <a href="signin.php" class="btn-action">Sign In to Join</a>
+    <?php endif; ?>
+    
+</div>
 
             <div class="sidebar-card">
                 <h3>Top Trainers</h3>
