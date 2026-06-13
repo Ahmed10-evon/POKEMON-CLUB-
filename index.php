@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,16 +8,6 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #e0f2e9; color: #333; }
-        
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .logo { font-size: 28px; font-weight: 900; color: #fccf00; text-shadow: 2px 2px 0 #2a75bb; letter-spacing: 2px; text-decoration: none; }
-        nav ul { list-style: none; display: flex; gap: 25px; }
-        nav a { text-decoration: none; color: #2e604a; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
-        nav a:hover { color: #50b47b; }
-        
-        .controls { display: flex; gap: 15px; align-items: center; }
-        .btn-signin { background-color: #50b47b; color: white; padding: 10px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; transition: 0.3s; }
-        .btn-signin:hover { opacity: 0.9; box-shadow: 0 4px 8px rgba(80, 180, 123, 0.4); }
         
         .hero { display: flex; justify-content: space-between; align-items: center; padding: 80px 10%; position: relative; }
         .hero-text { max-width: 50%; z-index: 2; }
@@ -40,28 +31,14 @@
 </head>
 <body>
 
-    <header>
-        <a href="index.html" class="logo">Pokémon Club</a>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="community.html">Forum</a></li>
-                <li><a href="pokedex.html">Pokédex</a></li>
-                <li><a href="quiz.html">Quiz Game</a></li>
-            </ul>
-        </nav>
-        <div class="controls">
-            <a href="signin.html" class="btn-signin">Sign In</a>
-        </div>
-    </header>
+    <?php include 'header.php'; ?>
 
     <section class="hero">
         <div class="hero-text">
             <h1>Join The<br>Community</h1>
             <div class="email-signup">
                 <input type="email" id="hero-email" placeholder="Your email address">
-                <button onclick="window.location.href='signin.html'">Get Started</button>
+                <button onclick="window.location.href='signin.php'">Get Started</button>
             </div>
         </div>
         <div class="mascot-area">⚡</div> 
@@ -71,20 +48,19 @@
         <div class="card">
             <h3>About The Club</h3>
             <p>Join trainers from around the world. Battle, trade, and discuss everything from the main series games to the TCG and anime.</p>
-            <a href="about.html">Read Our Rules →</a>
+            <a href="about.php">Read Our Rules →</a>
         </div>
         <div class="card">
             <h3>Community Forum</h3>
             <p>Dive into active discussions, share your fan art, or find a team for your next big competitive tournament.</p>
-            <a href="community.html">View Discussions →</a>
+            <a href="community.php">View Discussions →</a>
         </div>
         <div class="card">
             <h3>Official Pokédex</h3>
             <p>Look up stats, types, and abilities with our custom-built, fully searchable interactive Pokédex database.</p>
-            <a href="pokedex.html">Search Pokédex →</a>
+            <a href="pokedex.php">Search Pokédex →</a>
         </div>
     </section>
 
-    <script src="auth.js"></script>
 </body>
 </html>

@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,15 +8,6 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background-color: #f0f4f8; color: #444; }
-
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .logo { font-size: 28px; font-weight: 900; color: #fccf00; text-shadow: 2px 2px 0 #2a75bb; letter-spacing: 2px; text-decoration: none; }
-        nav ul { list-style: none; display: flex; gap: 25px; }
-        nav a { text-decoration: none; color: #2e604a; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
-        nav a:hover { color: #50b47b; }
-        
-        .btn-signin { background-color: #50b47b; color: white; padding: 10px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; transition: 0.3s; }
-        .btn-signin:hover { opacity: 0.9; }
 
         .container { display: grid; grid-template-columns: 1fr 300px; gap: 30px; padding: 40px 5%; max-width: 1400px; margin: 0 auto; }
 
@@ -34,7 +26,7 @@
         .sidebar-card h3 { font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #f0f4f8; padding-bottom: 8px; color: #2a75bb; }
 
         .trainer-card { text-align: center; }
-        .avatar { width: 80px; height: 80px; background: #e2e8f0; border-radius: 50%; margin: 0 auto 10px; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; }
+        .avatar { width: 80px; height: 80px; background: #e2e8f0; border-radius: 50%; margin: 0 auto 10px; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; font-size: 30px; }
         .rank-badge { background: #ffcb05; color: #2a75bb; font-weight: 800; font-size: 10px; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; }
         
         .leader-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 14px; }
@@ -48,21 +40,7 @@
 </head>
 <body>
 
-    <header>
-        <a href="index.html" class="logo">Pokémon Club</a>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="community.html">Forum</a></li>
-                <li><a href="pokedex.html">Pokédex</a></li>
-                <li><a href="quiz.html">Quiz Game</a></li>
-            </ul>
-        </nav>
-        <div>
-            <a href="signin.html" class="btn-signin">Sign In</a>
-        </div>
-    </header>
+    <?php include 'header.php'; ?>
 
     <div class="container">
         <main class="forum-main">
@@ -108,14 +86,22 @@
         <aside class="sidebar">
             <div class="sidebar-card trainer-card">
                 <h3>My Trainer Card</h3>
-                <div class="avatar">
-                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" width="70" alt="Avatar">
-                </div>
-                <p><strong id="trainer-name">Guest Trainer</strong></p>
-                <span class="rank-badge" id="trainer-rank">Visitor</span>
-                <p style="font-size: 12px; color: #718096; margin-top: 10px;">Favorite: Pikachu</p>
                 
-                <a href="profile.html" class="btn-action">View / Edit Profile</a>
+                <?php if(isset($_SESSION['user'])): ?>
+                    <div class="avatar">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/<?= htmlspecialchars($_SESSION['user']['fav']) ?>.png" width="70" alt="Avatar">
+                    </div>
+                    <p><strong><?= htmlspecialchars($_SESSION['user']['username']) ?></strong></p>
+                    <span class="rank-badge">Gym Leader</span>
+                    <a href="profile.php" class="btn-action">View / Edit Profile</a>
+                
+                <?php else: ?>
+                    <div class="avatar">👤</div>
+                    <p><strong>Guest Trainer</strong></p>
+                    <span class="rank-badge" style="background:#e2e8f0; color:#718096;">Visitor</span>
+                    <a href="signin.php" class="btn-action">Sign In to Join</a>
+                <?php endif; ?>
+                
             </div>
 
             <div class="sidebar-card">
@@ -146,25 +132,5 @@
         </aside>
     </div>
 
-    <script src="auth.js"></script>
-
-    <script>
-            document.addEventListener("DOMContentLoaded", () => {
-    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-    
-    if (loggedInUser) {
-        const trainerNameEl = document.getElementById('trainer-name');
-        const trainerRankEl = document.getElementById('trainer-rank');
-        const avatarImgEl = document.querySelector('.avatar img');
-        
-        trainerNameEl.textContent = loggedInUser.username;
-        trainerRankEl.textContent = "Gym Leader";
-        
-        if (loggedInUser.favoritePokemonId) {
-            avatarImgEl.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${loggedInUser.favoritePokemonId}.png`;
-        }
-    }
-});
-    </script>
 </body>
 </html>

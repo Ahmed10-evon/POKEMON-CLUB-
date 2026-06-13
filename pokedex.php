@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,33 +15,25 @@
             --dark: #707070; --electric: #eed535;
         }
 
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: white; border-bottom: 1px solid #eee; }
-        .logo { font-size: 24px; font-weight: bold; color: #333; display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        
-        nav ul { list-style: none; display: flex; gap: 25px; }
-        nav a { text-decoration: none; color: #2e604a; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
-        nav a:hover { color: #50b47b; }
-        
-        .btn-signin { background-color: #50b47b; color: white; padding: 10px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; transition: 0.3s; }
-        .btn-signin:hover { opacity: 0.9; }
+        /* Search & Filter Bar (Moved below the PHP header) */
+        .tools-bar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: white; border-bottom: 1px solid #eee; }
+        .search-container { position: relative; width: 350px; }
+        .search-container input { width: 100%; padding: 12px 20px; background-color: #f0f2f5; border: none; border-radius: 25px; font-size: 14px; outline: none; transition: 0.3s; }
+        .search-container input:focus { box-shadow: 0 0 0 2px #50b47b; background-color: white; }
 
-        .search-container { position: relative; width: 300px; }
-        .search-container input { width: 100%; padding: 12px 20px; background-color: #f0f2f5; border: none; border-radius: 25px; font-size: 14px; outline: none; }
-
-        .type-filters { display: flex; gap: 20px; padding: 15px 5%; background: white; overflow-x: auto; border-bottom: 1px solid #eee; scrollbar-width: none; }
+        .type-filters { display: flex; gap: 20px; overflow-x: auto; scrollbar-width: none; }
         .type-filters::-webkit-scrollbar { display: none; }
         .type-filters a { text-decoration: none; color: #888; font-size: 14px; font-weight: 600; padding-bottom: 5px; }
         .type-filters a.active { color: #333; border-bottom: 2px solid #333; }
 
+        /* Main Content */
         main { padding: 40px 5%; max-width: 1400px; margin: 0 auto; }
         .pokedex-banner { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 16px; padding: 40px 50px; color: white; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; position: relative; overflow: hidden; }
         .banner-text h1 { font-size: 2rem; margin-bottom: 10px; }
         .banner-text p { font-size: 1.1rem; opacity: 0.9; max-width: 400px; line-height: 1.4; }
         .banner-image { height: 120px; position: absolute; right: 50px; bottom: -10px; }
 
-        .controls-div { display: flex; justify-content: flex-end; gap: 15px; margin-bottom: 30px; }
-        .btn-control { background: white; border: 1px solid #ddd; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; color: #555; }
-
+        /* Grid & Cards */
         .pokemon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; }
         .card { background: white; border-radius: 16px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: transform 0.2s; cursor: pointer; }
         .card:hover { transform: translateY(-5px); }
@@ -53,35 +46,23 @@
 </head>
 <body>
 
-    <header>
-        <a href="index.html" class="logo"><span>⚡</span> Pokédex</a>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="community.html">Forum</a></li>
-                <li><a href="pokedex.html">Pokédex</a></li>
-                <li><a href="quiz.html">Quiz Game</a></li>
-            </ul>
+    <?php include 'header.php'; ?>
+
+    <div class="tools-bar">
+        <nav class="type-filters">
+            <a href="#" class="active">All</a>
+            <a href="#">Electric</a>
+            <a href="#">Fire</a>
+            <a href="#">Grass</a>
+            <a href="#">Water</a>
+            <a href="#">Ghost</a>
+            <a href="#">Ground</a>
+            <a href="#">Rock</a>
         </nav>
         <div class="search-container">
             <input type="text" placeholder="Search by name or number...">
         </div>
-        <div>
-            <a href="signin.html" class="btn-signin">Sign In</a>
-        </div>
-    </header>
-
-    <nav class="type-filters">
-        <a href="#" class="active">All</a>
-        <a href="#">Electric</a>
-        <a href="#">Fire</a>
-        <a href="#">Grass</a>
-        <a href="#">Water</a>
-        <a href="#">Ghost</a>
-        <a href="#">Ground</a>
-        <a href="#">Rock</a>
-    </nav>
+    </div>
 
     <main>
         <section class="pokedex-banner">
@@ -97,9 +78,49 @@
             <div class="card"><div class="type-badges"><div class="badge" style="background:#fd7d24">🔥</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png"><h3>Charmander</h3><span class="id">#004</span></div>
             <div class="card"><div class="type-badges"><div class="badge" style="background:#4592c4">💧</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png"><h3>Squirtle</h3><span class="id">#007</span></div>
             <div class="card"><div class="type-badges"><div class="badge" style="background:#eed535">⚡</div></div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"><h3>Pikachu</h3><span class="id">#025</span></div>
-        </section>
+            </section>
     </main>
 
-<script src="auth.js"></script>
+<script>
+    // Search Filter Logic
+    const searchInput = document.querySelector('.search-container input');
+    const pokemonCards = document.querySelectorAll('.card');
+
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.toLowerCase();
+        pokemonCards.forEach(card => {
+            const name = card.querySelector('h3').textContent.toLowerCase();
+            const id = card.querySelector('.id').textContent.toLowerCase();
+            card.style.display = (name.includes(query) || id.includes(query)) ? 'block' : 'none';
+        });
+    });
+
+    // Type Filter Logic System 
+    const typeFilters = document.querySelectorAll('.type-filters a');
+    typeFilters.forEach(filter => {
+        filter.addEventListener('click', (e) => {
+            e.preventDefault();
+            typeFilters.forEach(f => f.classList.remove('active'));
+            filter.classList.add('active');
+
+            const selectedType = filter.textContent.toLowerCase();
+            pokemonCards.forEach(card => {
+                const badges = card.querySelectorAll('.badge');
+                let hasType = false;
+                badges.forEach(badge => {
+                    if (selectedType === 'all' || getIconByType(selectedType) === badge.textContent) {
+                        hasType = true;
+                    }
+                });
+                card.style.display = hasType ? 'block' : 'none';
+            });
+        });
+    });
+
+    function getIconByType(type) {
+        const icons = { 'fire': '🔥', 'ghost': '👻', 'ground': '⛰️', 'rock': '🪨', 'electric': '⚡', 'grass': '🌿', 'water': '💧' };
+        return icons[type] || '';
+    }
+</script>
 </body>
 </html>
