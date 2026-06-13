@@ -9,7 +9,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background-color: #e0f2e9; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
 
-        /* Quiz Container */
         .quiz-container { background: white; margin-top: 50px; padding: 40px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); text-align: center; width: 90%; max-width: 500px; position: relative; }
         
         .score-board { position: absolute; top: 25px; right: 30px; font-weight: bold; color: #2a75bb; font-size: 18px; background: #f0f4f8; padding: 5px 15px; border-radius: 20px; }
@@ -115,7 +114,6 @@
             if (e.key === 'Enter') checkGuess(); 
         });
         
-        // Start Game
         fetchNewPokemon();
     </script>
 </body>

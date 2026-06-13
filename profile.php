@@ -1,13 +1,11 @@
 <?php
 session_start();
 
-// SECURITY CHECK: Kick them out if they aren't logged in
 if(!isset($_SESSION['user'])) {
     header("Location: signin.php");
     exit();
 }
 
-// Check which tab the user wants to see (default to 'activity')
 $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'activity';
 $user = $_SESSION['user'];
 ?>
@@ -23,7 +21,6 @@ $user = $_SESSION['user'];
         
         .container { display: grid; grid-template-columns: 320px 1fr; gap: 30px; padding: 40px 5%; max-width: 1300px; margin: 0 auto; }
         
-        /* Left Column Sidebar Card */
         .card { background: white; padding: 30px 20px; border-radius: 16px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
         .avatar-lg { width: 110px; height: 110px; background: #e2e8f0; border-radius: 50%; margin: 0 auto 15px; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.08); display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .avatar-lg img { width: 95px; height: 95px; object-fit: contain; }
@@ -31,18 +28,15 @@ $user = $_SESSION['user'];
         .trainer-name { font-size: 22px; font-weight: bold; color: #2d3748; margin-bottom: 5px; text-transform: lowercase; }
         .rank-badge { background: #ffcb05; color: #2d3748; font-weight: 800; font-size: 11px; padding: 4px 14px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; }
         
-        /* Sidebar Navigation Menu */
         .profile-nav { margin-top: 30px; display: flex; flex-direction: column; gap: 8px; }
         .nav-item { display: flex; align-items: center; gap: 10px; padding: 12px 20px; background: #f7fafc; color: #4a5568; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; transition: 0.2s; text-align: left; border: 1px solid transparent; }
         .nav-item:hover { background: #edf2f7; color: #2b6cb0; }
         .nav-item.active { background: #2b6cb0; color: white; box-shadow: 0 4px 12px rgba(43, 108, 176, 0.2); }
 
-        /* Right Content Panel Layout */
         .content-panel { background: white; border-radius: 16px; padding: 40px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
         .content-panel h2 { color: #2b6cb0; font-size: 24px; margin-bottom: 20px; }
         .divider { margin: 15px 0 25px 0; border: none; border-bottom: 1px solid #edf2f7; }
 
-        /* Form Controls matching image_fde57f.png */
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
         .form-group { display: flex; flex-direction: column; gap: 8px; }
         .form-group.full-width { grid-column: span 2; }
@@ -55,7 +49,6 @@ $user = $_SESSION['user'];
         .btn-save { background: #48bb78; color: white; border: none; padding: 12px 30px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s; margin-top: 10px; display: inline-block; }
         .btn-save:hover { background: #38a169; transform: translateY(-1px); }
 
-        /* Bulletin Activity Items matching image_fde53f.png */
         .activity-list { display: flex; flex-direction: column; gap: 15px; }
         .activity-card { background: #f7fafc; border-left: 4px solid #ffcb05; border-radius: 0 8px 8px 0; padding: 20px; box-shadow: inset 0 0 4px rgba(0,0,0,0.01); }
         .activity-card h4 { font-size: 15px; color: #2d3748; margin-bottom: 4px; }
@@ -64,21 +57,17 @@ $user = $_SESSION['user'];
 </head>
 <body>
 
-    <!-- Global Layout Header Component -->
     <?php include 'header.php'; ?>
 
     <div class="container">
-        <!-- Profile Left Navigation Column -->
         <aside>
             <div class="card">
                 <div class="avatar-lg">
-                    <!-- Dynamic URL fetching user partner sprite from local session data structure -->
                     <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/<?= htmlspecialchars($user['fav']) ?>.png" alt="Trainer Avatar">
                 </div>
                 <h3 class="trainer-name"><?= htmlspecialchars($user['username']) ?></h3>
                 <span class="rank-badge">Gym Leader</span>
                 
-                <!-- Navigation controls changing tab parameters -->
                 <nav class="profile-nav">
                     <a href="profile.php?tab=activity" class="nav-item <?= $current_tab === 'activity' ? 'active' : '' ?>">
                         📜 Bulletin Activity
@@ -90,10 +79,8 @@ $user = $_SESSION['user'];
             </div>
         </aside>
 
-        <!-- Profile Content Presentation Segment -->
         <main class="content-panel">
             <?php if($current_tab === 'settings'): ?>
-                <!-- VIEW 2: ACCOUNT SETTINGS VIEW (Matches image_fde57f.png) -->
                 <h2>Update Trainer Credentials</h2>
                 <div class="divider"></div>
                 
@@ -134,7 +121,6 @@ $user = $_SESSION['user'];
                 </form>
 
             <?php else: ?>
-                <!-- VIEW 1: BULLETIN ACTIVITY VIEW (Matches image_fde53f.png) -->
                 <h2>Your Bulletin Board Activities</h2>
                 <div class="divider"></div>
                 

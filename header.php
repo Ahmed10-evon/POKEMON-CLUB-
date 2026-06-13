@@ -1,13 +1,12 @@
 <?php
-// header.php
-// WARNING: session_start() must be called before ANY HTML is output on the page!
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 ?>
 
 <style>
-    /* Add the header CSS here so it applies globally */
+
     header { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
     .logo { font-size: 24px; font-weight: 900; color: #fccf00; text-shadow: 1px 1px 0 #2a75bb; text-decoration: none; }
     nav ul { list-style: none; display: flex; gap: 25px; margin: 0; padding: 0; }

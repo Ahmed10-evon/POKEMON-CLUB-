@@ -15,7 +15,7 @@
             --dark: #707070; --electric: #eed535;
         }
 
-        /* Search & Filter Bar (Moved below the PHP header) */
+        
         .tools-bar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: white; border-bottom: 1px solid #eee; }
         .search-container { position: relative; width: 350px; }
         .search-container input { width: 100%; padding: 12px 20px; background-color: #f0f2f5; border: none; border-radius: 25px; font-size: 14px; outline: none; transition: 0.3s; }
@@ -26,14 +26,12 @@
         .type-filters a { text-decoration: none; color: #888; font-size: 14px; font-weight: 600; padding-bottom: 5px; }
         .type-filters a.active { color: #333; border-bottom: 2px solid #333; }
 
-        /* Main Content */
         main { padding: 40px 5%; max-width: 1400px; margin: 0 auto; }
         .pokedex-banner { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 16px; padding: 40px 50px; color: white; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; position: relative; overflow: hidden; }
         .banner-text h1 { font-size: 2rem; margin-bottom: 10px; }
         .banner-text p { font-size: 1.1rem; opacity: 0.9; max-width: 400px; line-height: 1.4; }
         .banner-image { height: 120px; position: absolute; right: 50px; bottom: -10px; }
 
-        /* Grid & Cards */
         .pokemon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; }
         .card { background: white; border-radius: 16px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: transform 0.2s; cursor: pointer; }
         .card:hover { transform: translateY(-5px); }
@@ -82,7 +80,7 @@
     </main>
 
 <script>
-    // Search Filter Logic
+ 
     const searchInput = document.querySelector('.search-container input');
     const pokemonCards = document.querySelectorAll('.card');
 
@@ -95,7 +93,7 @@
         });
     });
 
-    // Type Filter Logic System 
+  
     const typeFilters = document.querySelectorAll('.type-filters a');
     typeFilters.forEach(filter => {
         filter.addEventListener('click', (e) => {

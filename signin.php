@@ -1,70 +1,53 @@
 <?php
-// signin.php
 session_start();
+require 'db.php'; 
 
-// If already logged in, redirect away
-if(isset($_SESSION['user'])) {
-    header("Location: index.php");
-    exit();
-}
+$error = '';
+$success = '';
 
-$error = "";
-$usersFile = 'users.json';
-
-// Create the JSON database file if it doesn't exist yet
-if (!file_exists($usersFile)) {
-    file_put_contents($usersFile, json_encode([]));
-}
-
-// Handle Form Submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $users = json_decode(file_get_contents($usersFile), true);
-    $action = $_POST['action'];
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
-
-    if ($action === 'register') {
-        $username = trim($_POST['username']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+    
+    if ($_POST['action'] === 'register') {
+        $user = $_POST['username'];
+        $email = $_POST['email'];
+        $pass = $_POST['password'];
         
-        // Check if email already exists
-        $exists = false;
-        foreach($users as $u) {
-            if($u['email'] === $email) { $exists = true; break; }
-        }
-
-        if ($exists) {
-            $error = "This email is already registered.";
-        } elseif (strlen($username) < 3) {
-            $error = "Trainer Name must be at least 3 characters.";
-        } else {
-            // Hash the password securely and save
-            $newUser = [
-                'username' => $username,
-                'email' => $email,
-                'password' => password_hash($password, PASSWORD_DEFAULT),
-                'fav' => '25' // Default Pikachu
-            ];
-            $users[] = $newUser;
-            file_put_contents($usersFile, json_encode($users));
-            
-            // Log them in immediately
-            $_SESSION['user'] = $newUser;
-            header("Location: index.php");
-            exit();
-        }
-    } 
-    elseif ($action === 'login') {
-        $loggedIn = false;
-        foreach($users as $u) {
-            // Verify email and the hashed password
-            if($u['email'] === $email && password_verify($password, $u['password'])) {
-                $_SESSION['user'] = $u;
-                $loggedIn = true;
-                header("Location: index.php");
-                exit();
+        $hashed_password = password_hash($pass, PASSWORD_DEFAULT);
+        
+        $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+        
+        try {
+            $stmt->execute([$user, $email, $hashed_password]);
+            $success = "Trainer registered successfully! You can now sign in.";
+        } catch (PDOException $e) {
+            if ($e->getCode() == 23000) {
+                $error = "That email is already registered.";
+            } else {
+                $error = "Registration Error: " . $e->getMessage();
             }
         }
-        if (!$loggedIn) {
+    }
+
+    if ($_POST['action'] === 'login') {
+        $email = $_POST['email'];
+        $pass = $_POST['password'];
+        
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($user && password_verify($pass, $user['password'])) {
+            $_SESSION['user'] = [
+                'id' => $user['id'],
+                'username' => $user['username'],
+                'email' => $user['email'],
+                'fav' => $user['fav'],
+                'rank' => $user['rank']
+            ];
+            
+            header("Location: community.php");
+            exit();
+        } else {
             $error = "Invalid email or password.";
         }
     }
@@ -83,7 +66,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 6px; text-transform: uppercase; }
         input { width: 100%; padding: 12px; border: 2px solid #edf2f7; border-radius: 12px; outline: none; }
         .btn-submit { width: 100%; padding: 14px; background: #50b47b; color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
-        .msg-error { color: #e53e3e; margin-top: 15px; font-weight: 600; }
+        .msg-error { color: #e53e3e; margin-top: 15px; font-weight: 600; font-size: 14px; }
+        .msg-success { color: #38a169; margin-top: 15px; font-weight: 600; font-size: 14px; }
         .toggle-form { margin-top: 20px; cursor: pointer; color: #2a75bb; font-weight: bold; }
     </style>
 </head>
@@ -114,8 +98,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn-submit" id="submit-btn">Sign In</button>
         </form>
 
-        <?php if($error): ?>
-            <p class="msg-error"><?= $error ?></p>
+        <?php if(!empty($error)): ?>
+            <p class="msg-error"><?= htmlspecialchars($error) ?></p>
+        <?php endif; ?>
+        
+        <?php if(!empty($success)): ?>
+            <p class="msg-success"><?= htmlspecialchars($success) ?></p>
         <?php endif; ?>
 
         <div class="toggle-form" onclick="toggleMode()">
